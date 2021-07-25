@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
+import Firebase, { FirebaseContext } from './components/Firebase';
 
 ReactDOM.render(
-    <Fragment>
+    <FirebaseContext.Provider value={new Firebase()}>
        <App />
-    </Fragment>
+    </FirebaseContext.Provider>
     , document.getElementById('root'));

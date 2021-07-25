@@ -1,4 +1,5 @@
 import app from 'firebase/app';
+import 'firebase/auth';
 
 const config = {
     apiKey: "AIzaSyC1il-u8OODTPY6sUjljV9jTqA3KlZA860",
@@ -12,6 +13,22 @@ const config = {
 class Firebase{
     constructor() {
         app.initializeApp(config);
+        this.auth = app.auth();
+    }
+
+    // inscription
+    signupUser = (email, password) => {
+        this.auth.createUserWithEmailAndPassword(email, password);
+    }
+
+    // connexion
+    loginUser = (email, password) => {
+        this.auth.signInWithEmailAndPassword(email, password);
+    }
+
+    // deconnexion
+    signoutUser = () => {
+        this.auth.signOut();
     }
 }
 

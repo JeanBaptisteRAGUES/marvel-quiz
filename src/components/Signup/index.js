@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
+import { Link } from 'react-router-dom';
 import {FirebaseContext} from '../Firebase'
 
-const Signup = () => {
+const Signup = (props) => {
     const firebase = useContext(FirebaseContext);
-    console.log(firebase);
 
     const data = {
         pseudo: '',
@@ -25,11 +25,12 @@ const Signup = () => {
         firebase.signupUser(email, password)
         .then(user => {
             setLoginData({...data});
+            props.history.push('/welcome');
         })
         .catch(error => {
             setError(error);
             setLoginData({...data});
-        })
+        });
     }
 
     const {pseudo, email, password, confirmPassword} = loginData;
@@ -69,6 +70,9 @@ const Signup = () => {
                             </div>
                             {btn}
                         </form>
+                        <div className="linkContainer">
+                            <Link className="simpleLink" to="/login">Déjà inscrit ? Connectez vous</Link>
+                        </div>
                     </div>
                 </div>
             </div>

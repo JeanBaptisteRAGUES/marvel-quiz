@@ -7,6 +7,7 @@ const Welcome = (props) => {
 
     const firebase = useContext(FirebaseContext);
     const [userSession, setUserSession] = useState(null);
+    const [userData, setUserData] = useState({});
 
     useEffect(() => {
 
@@ -14,11 +15,25 @@ const Welcome = (props) => {
             user ? setUserSession(user) : props.history.push('/');
         })
 
+        if(userSession !== null){
+            firebase.user(userSession.uid)
+            .get()
+            .then((doc) => {
+                if(doc && doc.exists){
+                    const myData = doc.data();
+                    setUserData(myData);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }
+
         return () => {
             //Arrête le listener
             listener();
         };
-    }, [])
+    }, [userSession])
 
     return userSession === null ? (
         <Fragment>
@@ -29,7 +44,7 @@ const Welcome = (props) => {
         <div className="quiz-bg">
             <div className="container">
                 <Logout />
-                <Quiz />
+                <Quiz userData={userData}/>
             </div>
         </div>
     );

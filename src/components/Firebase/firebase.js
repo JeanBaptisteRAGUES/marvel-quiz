@@ -16,20 +16,23 @@ class Firebase{
         this.auth = app.auth();
     }
 
-    // inscription
+    // Inscription
     signupUser = (email, password) => {
         return this.auth.createUserWithEmailAndPassword(email, password);
     }
 
-    // connexion
+    // Connexion
     loginUser = (email, password) => {
         return this.auth.signInWithEmailAndPassword(email, password);
     }
 
-    // deconnexion
+    // Deconnexion
     signoutUser = () => {
         return this.auth.signOut();
     }
+
+    // Récupérer le mot de passe
+    passwordReset = (email) => this.auth.sendPasswordResetEmail(email);
 }
 
 export default Firebase

@@ -1,16 +1,16 @@
 import React, { Fragment } from 'react';
 
-const ProgressBar = () => {
+const ProgressBar = ({idQuestion, maxQuestions}) => {
     return (
         <Fragment>
             <div className="percentage">
-                <div className="progressPercent">question: 1/10</div>
-                <div className="progressPercent">Progression: 10%</div>
+                <div className="progressPercent">{`Question : ${(idQuestion+1)}/${maxQuestions}`}</div>
+                <div className="progressPercent">{`Question : ${(idQuestion+1)*100/maxQuestions}%`}</div>
             </div>
             <div className="progressBar">
                 <div className="progressBarChange" style={
                     {
-                        width: '10%'
+                        width: `${(idQuestion+1)*10}%`
                     }
                 }>
                 </div>
@@ -19,4 +19,4 @@ const ProgressBar = () => {
     )
 }
 
-export default ProgressBar
+export default React.memo(ProgressBar)

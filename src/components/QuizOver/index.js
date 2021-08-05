@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 
 const QuizOver = React.forwardRef((props, ref) => {
 
-    const {levelNames, score, maxQuestions, quizLevel, percent} = props;
+    const {levelNames, score, maxQuestions, quizLevel, percent, loadLevelQuestions} = props;
     const [asked, setAsked] = useState([]);
 
     useEffect(() => {
@@ -10,6 +10,14 @@ const QuizOver = React.forwardRef((props, ref) => {
     }, [ref]);
 
     const averageGrade = maxQuestions / 2.0;
+
+    if(score < averageGrade){
+        setTimeout(() => {
+            //loadLevelQuestions(0);
+            loadLevelQuestions(quizLevel);
+        }, 3000);
+    }
+
     const decision = score >= averageGrade ? (
         <Fragment>
             <div className="stepsBtnContainer">
@@ -17,12 +25,22 @@ const QuizOver = React.forwardRef((props, ref) => {
                 quizLevel < levelNames.length ? (
                     <Fragment>
                         <p className="successMsg">Bravo, passez au niveau suivant !</p>
-                        <button className="btnResult success">Niveau suivant</button>
+                        <button 
+                            className="btnResult success"
+                            onClick={() => loadLevelQuestions(quizLevel)}
+                        >
+                            Niveau suivant 
+                        </button>
                     </Fragment>
                 ) : (
                     <Fragment>
                         <p className="successMsg">Bravo, vous êtes un expert !</p>
-                        <button className="btnResult gameOver">Niveau suivant</button>
+                        <button 
+                            className="btnResult gameOver"
+                            onClick={() => loadLevelQuestions(0)}
+                        >
+                            Accueil
+                        </button>
                     </Fragment>
                 )
             }
@@ -59,6 +77,7 @@ const QuizOver = React.forwardRef((props, ref) => {
     ) : (
         <tr>
             <td colSpan="3">
+                <div className="loader"></div>
                 <p style={{textAlign: 'center', color: 'red'}}>
                     Pas de réponses !
                 </p>
